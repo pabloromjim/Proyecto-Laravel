@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->integer('puntos')->default(0); //texto de más de 255 caracteres
+            $table->string("rol", 20)->default("Usuario");
         });
     }
 
