@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
             $table->string("titulo");
+            $table->double("precio");
             $table->string("desarrollador");
             $table->text("descripcion");
             $table->date("fecha_lanzamiento");
@@ -19,6 +20,8 @@ return new class extends Migration
             $table->string("genero");
             $table->integer("valoracion")->default(0);
             $table->string("clave");
+            $table->string("imagen");
+
         });
     }
 
