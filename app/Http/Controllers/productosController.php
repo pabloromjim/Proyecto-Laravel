@@ -7,6 +7,8 @@ use App\Models\producto;
 
 class productosController extends Controller
 {
+
+
     public function index(){
         $productos = producto::all();
         return view("index", compact('productos'));

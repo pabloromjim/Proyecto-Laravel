@@ -74,14 +74,14 @@
         <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-6 py-3">
 
             <label for="menu-toggle" class="cursor-pointer md:hidden block">
-                <a class="inline-block no-underline hover:text-[#ff5400]  py-2 px-4" href="#">Logo</a>
+                <a class="inline-block no-underline hover:text-[#ff5400]  py-2 px-4" href="{{ url('/') }}">Todo Juego</a>
             </label>
             <input class="hidden" type="checkbox" id="menu-toggle">
 
             <div class="hidden md:flex md:items-center md:w-auto w-full order-3 md:order-1" id="menu">
                 <nav>
                     <ul class="md:flex items-center justify-between text-base text-white  pt-4 md:pt-0">
-                        <li><a class="inline-block no-underline hover:text-[#ff5400]  py-2 px-4" href="#">Logo</a></li>
+                        <li><a class="inline-block no-underline hover:text-[#ff5400]  py-2 px-4" href="{{ url('/') }}">Todo Juego</a></li>
                     </ul>
                 </nav>
             </div>
@@ -114,19 +114,26 @@
             <div class="order-2 md:order-3 flex items-center" id="nav-content">
 
 
-                <a class="inline-block no-underline hover:text-black" href="#">
-                    <svg class="fill-current hover:text-[#ff5400]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path d="M21,7H7.462L5.91,3.586C5.748,3.229,5.392,3,5,3H2v2h2.356L9.09,15.414C9.252,15.771,9.608,16,10,16h8 c0.4,0,0.762-0.238,0.919-0.606l3-7c0.133-0.309,0.101-0.663-0.084-0.944C21.649,7.169,21.336,7,21,7z M17.341,14h-6.697L8.371,9 h11.112L17.341,14z"></path>
-                        <circle cx="10.5" cy="18.5" r="1.5"></circle>
-                        <circle cx="17.5" cy="18.5" r="1.5"></circle>
-                    </svg>
-                </a>
+                 @if (Auth::check()) {{--sesion iniciada comprobación --}}
+                    
                 <a class="pl-3  inline-block no-underline hover:text-[#ff5400]" href="{{route('register')}}">
                     <svg class="fill-current hover:text-[#ff5400]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <circle fill="none" cx="12" cy="7" r="3"></circle>
                         <path d="M12 2C9.243 2 7 4.243 7 7s2.243 5 5 5 5-2.243 5-5S14.757 2 12 2zM12 10c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3S13.654 10 12 10zM21 21v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h2v-1c0-2.757 2.243-5 5-5h4c2.757 0 5 2.243 5 5v1H21z"></path>
                     </svg>
+                    
                 </a>
+                <a class="pl-3  inline-block no-underline"> {{ Auth::user()->name }}</a>
+                <form action="{{route('logout')}}" method="post">
+                    <input type="submit" value="Cerrar Sesión" class="pl-3  inline-block no-underline hover:text-[#ff5400]">
+                    @csrf
+                </form>
+                @else
+                <a class="pl-3  inline-block no-underline hover:text-[#ff5400]" href="{{route('login')}}">
+                    Iniciar Sesión / Registrarte
+                </a>
+                @endif
+                
             </div>
         </div>
     </nav>
@@ -177,12 +184,11 @@
             <img class="hover:grow hover:shadow-lg" src="{{$producto->imagen}}">
             <div class="pt-3 flex items-center justify-between">
                 <p class="">{{$producto->titulo}}</p>
-                <!-- carrito -->
                 <svg class="h-6 w-6 fill-current text-white hover:text-[#ff5400]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <path d="M12,4.595c-1.104-1.006-2.512-1.558-3.996-1.558c-1.578,0-3.072,0.623-4.213,1.758c-2.353,2.363-2.352,6.059,0.002,8.412 l7.332,7.332c0.17,0.299,0.498,0.492,0.875,0.492c0.322,0,0.609-0.163,0.792-0.409l7.415-7.415 c2.354-2.354,2.354-6.049-0.002-8.416c-1.137-1.131-2.631-1.754-4.209-1.754C14.513,3.037,13.104,3.589,12,4.595z M18.791,6.205 c1.563,1.571,1.564,4.025,0.002,5.588L12,18.586l-6.793-6.793C3.645,10.23,3.646,7.776,5.205,6.209 c0.76-0.756,1.754-1.172,2.799-1.172s2.035,0.416,2.789,1.17l0.5,0.5c0.391,0.391,1.023,0.391,1.414,0l0.5-0.5 C14.719,4.698,17.281,4.702,18.791,6.205z"></path>
                 </svg>
             </div>
-            <p class="pt-1 text-[#ff5400]">{{$producto->precio}}</p>
+            <p class="pt-1 text-[#ff5400]">{{$producto->precio}}€</p>
         </a>
     </div>
     @endforeach
@@ -208,12 +214,7 @@
                     <li class="box-border flex items-center ">
                         <a class="box-border flex items-center text-white ">FAQ</a>
                     </li>
-                    <li class="box-border flex items-center ">
-                        <a class="box-border flex items-center text-white ">
-                            <div class="mr-2.5 box-border h-5 w-5 bg-[rgba(255,84,0,1)]"></div>
-                            <span class="box-border ">Nuestras tarjetas regalo</span>
-                        </a>
-                    </li>
+                   
                 </ul>
 
                 <ul class="box-border flex flex-col justify-between ">
@@ -229,12 +230,7 @@
                     <li class="box-border flex items-center ">
                         <a class="box-border flex items-center text-white ">FAQ</a>
                     </li>
-                    <li class="box-border flex items-center ">
-                        <a class="box-border flex items-center text-white ">
-                            <div class="mr-2.5 box-border h-5 w-5 bg-[rgba(255,84,0,1)]"></div>
-                            <span class="box-border ">Nuestras tarjetas regalo</span>
-                        </a>
-                    </li>
+                  
                 </ul>
                 <ul class="box-border flex flex-col justify-between ">
                     <li class="box-border flex items-center ">
@@ -249,12 +245,7 @@
                     <li class="box-border flex items-center ">
                         <a class="box-border flex items-center text-white ">FAQ</a>
                     </li>
-                    <li class="box-border flex items-center ">
-                        <a class="box-border flex items-center text-white ">
-                            <div class="mr-2.5 box-border h-5 w-5 bg-[rgba(255,84,0,1)]"></div>
-                            <span class="box-border ">Nuestras tarjetas regalo</span>
-                        </a>
-                    </li>
+                  
                 </ul>
             </div>
         </div>

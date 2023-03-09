@@ -27,7 +27,7 @@ Route::get('producto/{producto}', [productosController::class, "show"])->name("p
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('check');
 
 Route::resource('productos', ProductoController::class)->middleware('auth');
 
